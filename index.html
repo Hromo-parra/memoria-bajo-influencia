@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Aplicación educativa para estudiar el efecto de la información postevento sobre la memoria inmediata y diferida."
+    />
+    <meta name="theme-color" content="#17213c" />
+    <title>Memoria bajo influencia</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;family=Manrope:wght@500;600;700;800&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#app">Saltar al contenido</a>
+
+    <header class="site-header">
+      <a class="brand" href="#/" aria-label="Ir al inicio">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span>Memoria <strong>bajo influencia</strong></span>
+      </a>
+      <div class="header-meta">
+        <span class="status-dot" aria-hidden="true"></span>
+        Protocolo v0.1
+      </div>
+    </header>
+
+    <main id="app" tabindex="-1" aria-live="polite"></main>
+
+    <footer class="site-footer">
+      <p>Investigación en Psicología y Neurociencias · Equipo 5</p>
+      <p>Mariana Rodríguez Martínez · María Fernanda Negrete Martín del Campo</p>
+    </footer>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,7 @@
+# Material fuente local: no se publica en GitHub Pages.
+*.docx
+00195ca0-a3a6-44f2-94ac-3e74a057d662.mp4
+
+# Archivos del sistema y del editor.
+.DS_Store
+*.swp
