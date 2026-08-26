@@ -2,6 +2,8 @@
 
 Aplicación web para pilotear la práctica **Efecto de la información postevento sobre la memoria inmediata y diferida**. Fue construida para el Equipo 5 del curso Investigación en Psicología y Neurociencias.
 
+**Aplicación publicada:** <https://hromo-parra.github.io/memoria-bajo-influencia/>
+
 Autoras del protocolo:
 
 - Mariana Rodríguez Martínez
