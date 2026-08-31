@@ -3,6 +3,7 @@
 
   const DATA = window.STUDY_DATA;
   const STORAGE_KEY = "memoria-influencia-v01";
+  const CONSENT_VERSION = "piloto-2026-08-31-v1";
   const app = document.querySelector("#app");
   const toast = document.querySelector("#toast");
 
@@ -156,6 +157,7 @@
       delayedForm: assignment.delayed,
       createdAt: new Date().toISOString(),
       consentAt: null,
+      consentVersion: null,
       currentStage: "consent",
       videoStartedAt: null,
       videoCompletedAt: null,
@@ -199,16 +201,33 @@
 
   function renderConsent(participant) {
     app.innerHTML = sessionFrame(`
-      <div class="panel panel-narrow">
-        <div class="panel-head"><div><p class="eyebrow">Consentimiento informado</p><h2>Tu participación es voluntaria</h2><p>Código: <strong>${escapeHTML(participant.code)}</strong></p></div></div>
-        <p>Participarás en actividades sobre memoria y procesamiento de información. La sesión incluye un video breve y preguntas sobre lo observado. Puedes retirarte antes de enviar una sesión sin penalización.</p>
-        <div class="notice warning"><span aria-hidden="true">!</span><div><strong>Plantilla para pilotaje académico</strong><p>Antes de recolectar datos reales, el equipo debe sustituir este resumen por el consentimiento aprobado por su docente o comité de ética, incluyendo riesgos, beneficios, contacto y tratamiento de datos.</p></div></div>
+      <div class="panel consent-panel">
+        <div class="panel-head"><div><p class="eyebrow">Consentimiento informado</p><h2>Información para decidir si deseas participar</h2><p>Estudio: <strong>Memoria bajo influencia</strong> · Código: <strong>${escapeHTML(participant.code)}</strong></p></div><button class="btn btn-ghost" type="button" data-action="print-consent">Imprimir o guardar</button></div>
+        <div class="notice warning"><span aria-hidden="true">!</span><div><strong>Documento para pilotaje académico</strong><p>Antes de reclutar participantes, el equipo debe completar el correo institucional y obtener la aprobación docente o del comité de ética que corresponda.</p></div></div>
+        <div class="consent-meta" aria-label="Datos del consentimiento">
+          <div><span>Equipo investigador</span><strong>${DATA.meta.authors.map(escapeHTML).join(" · ")}</strong></div>
+          <div><span>Versión</span><strong>${CONSENT_VERSION}</strong></div>
+          <div><span>Contacto</span><strong>[correo institucional por completar]</strong></div>
+        </div>
+        <div class="consent-sections">
+          <section><h3>¿Cuál es el propósito?</h3><p>Este proyecto académico estudia cómo las personas recuerdan una escena y procesan información relacionada con ella. Para no influir en tus respuestas, algunos detalles del objetivo se explicarán al terminar tu participación.</p></section>
+          <section><h3>¿Qué tendrás que hacer?</h3><p>Realizarás una sesión inicial de aproximadamente 20–30 minutos: observarás una escena audiovisual una sola vez, completarás una actividad breve y responderás preguntas de memoria. Siete días después realizarás un seguimiento de aproximadamente 10–15 minutos, sin volver a ver el video ni consultar notas.</p></section>
+          <section><h3>Riesgos o molestias</h3><p>Podrías experimentar cansancio, aburrimiento, frustración al no recordar algún detalle o incomodidad al descubrir, en la explicación final, que no se reveló desde el inicio toda la finalidad del estudio. Puedes retirarte en cualquier momento. Si el video o las preguntas te generan malestar, detente y avisa al equipo.</p></section>
+          <section><h3>Beneficios y compensación</h3><p>No se garantiza un beneficio personal ni una mejora de la memoria. Tu participación puede contribuir al aprendizaje metodológico del equipo. Esta aplicación no ofrece compensación; cualquier compensación externa debe informarse por separado antes de participar.</p></section>
+          <section><h3>Privacidad y uso de datos</h3><p>No se solicita nombre, matrícula ni correo. Tus respuestas se asocian únicamente al código anónimo mostrado arriba y se guardan localmente en este navegador hasta que el equipo las exporte. GitHub Pages aloja la aplicación, pero no recibe las respuestas. El equipo responsable debe resguardar los archivos y limitar su acceso.</p></section>
+          <section><h3>Participación voluntaria y retiro</h3><p>Participar es voluntario. Puedes dejar de participar sin penalización y sin explicar el motivo. Para solicitar que se retiren datos ya exportados, conserva tu código y comunícalo al contacto institucional; será posible mientras no se hayan anonimizado de forma irreversible o agregado al análisis.</p></section>
+          <section><h3>Preguntas y aclaración final</h3><p>Puedes hacer preguntas antes de aceptar. Al concluir la segunda sesión recibirás una explicación del propósito y de la información posterior al evento.</p></section>
+        </div>
         <form id="consent-form">
-          <label class="check-row"><input type="checkbox" name="adult" required /><span>Confirmo que cumplo los criterios de participación establecidos por el equipo investigador.</span></label>
-          <label class="check-row"><input type="checkbox" name="understand" required /><span>He leído la información, pude resolver mis dudas y comprendo que mi participación es voluntaria.</span></label>
-          <label class="check-row"><input type="checkbox" name="agree" required /><span>Acepto participar y usar el código anónimo mostrado arriba.</span></label>
+          <h3>Declaración de consentimiento</h3>
+          <label class="check-row"><input type="checkbox" name="adult" required /><span>Confirmo que tengo 18 años o más y cumplo los criterios comunicados por el equipo investigador.</span></label>
+          <label class="check-row"><input type="checkbox" name="read" required /><span>He leído la información sobre propósito, procedimientos, duración, riesgos, beneficios y privacidad.</span></label>
+          <label class="check-row"><input type="checkbox" name="understand" required /><span>Tuve oportunidad de hacer preguntas, recibí respuestas satisfactorias y sé con quién comunicarme.</span></label>
+          <label class="check-row"><input type="checkbox" name="voluntary" required /><span>Comprendo que mi participación es voluntaria y que puedo retirarme sin penalización.</span></label>
+          <label class="check-row"><input type="checkbox" name="agree" required /><span>Acepto participar y que mis respuestas se utilicen con fines académicos conforme a este documento.</span></label>
           <div class="spacer"></div>
-          <div class="btn-row"><button class="btn btn-primary" type="submit">Acepto y continúo</button><button class="btn btn-secondary" type="button" data-route="#/">No participar</button></div>
+          <p class="small muted">Al seleccionar “Acepto y continúo”, se registrarán la fecha, la hora y la versión del consentimiento junto con tu código anónimo.</p>
+          <div class="btn-row"><button class="btn btn-primary" type="submit">Acepto y continúo</button><button class="btn btn-secondary" type="button" data-route="#/">No acepto / salir</button></div>
         </form>
       </div>`, 1, "Sesión inicial");
     top();
@@ -568,7 +587,7 @@
       ["06", "Seguimiento", "La otra forma después de siete días, seguida del debriefing."]
     ];
     return `<div class="panel"><div class="panel-head"><div><h3>Secuencia experimental</h3><p>Cada detalle crítico se evalúa una sola vez.</p></div></div><div class="mode-stack">${steps.map(([number, title, text]) => `<div class="mode-card" style="cursor:default"><span class="mode-icon">${number}</span><span><strong>${title}</strong><small>${text}</small></span></div>`).join("")}</div></div><div class="panel"><h3>Lista de verificación antes del pilotaje</h3>${[
-      "Sustituir consentimiento y debriefing por versiones aprobadas.",
+      "Completar contacto institucional y obtener aprobación del consentimiento y debriefing.",
       "Revisar en pantalla completa la visibilidad de los 15 detalles del video.",
       "Pilotear comprensión, dificultad y tiempo de las Formas A y B.",
       "Definir recordatorios y ventana de vencimiento del seguimiento.",
@@ -688,6 +707,7 @@
     if (event.target.id === "consent-form") {
       const participant = db.participants[activeCode];
       participant.consentAt = new Date().toISOString();
+      participant.consentVersion = CONSENT_VERSION;
       participant.currentStage = "intro";
       saveDatabase();
       renderSession();
@@ -773,6 +793,7 @@
       });
     }
     if (action === "download-participant") exportJSON(participant);
+    if (action === "print-consent") window.print();
     if (action === "export-csv") exportCSV();
     if (action === "export-json") exportJSON();
     if (action === "reset-data") {

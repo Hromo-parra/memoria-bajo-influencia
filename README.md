@@ -114,7 +114,7 @@ Esta versión está diseñada para **docencia y pilotaje local**, no para recole
 1. GitHub Pages no incluye una base de datos privada. Los datos se conservan en `localStorage` del navegador.
 2. El acceso docente y las claves de corrección son visibles en el código publicado.
 3. El seguimiento funciona automáticamente en el mismo navegador. Si se cambia de dispositivo, es necesario importar el respaldo JSON.
-4. El consentimiento y el debriefing actuales son plantillas y deben reemplazarse por textos aprobados.
+4. La app incluye un consentimiento informado completo para pilotaje y registra fecha y versión. Antes de recolectar datos reales deben completarse el contacto institucional y la aprobación docente o del comité de ética; el debriefing también requiere aprobación.
 5. Deben definirse retención, cifrado, control de acceso, retiro de datos e incidencias antes de reclutar participantes.
 6. La matriz fue contrastada visualmente con el video, pero la visibilidad y dificultad de cada detalle deben confirmarse mediante pilotaje independiente.
 
