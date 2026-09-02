@@ -12,7 +12,7 @@ Autoras del protocolo:
 ## Qué incluye
 
 - Modo participante y modo docente.
-- Consentimiento de muestra con advertencia de sustitución ética.
+- Consentimiento informado previo a la sesión inicial, con registro de fecha y versión.
 - Una sola reproducción del video del evento.
 - Doce ejercicios visuales distractores.
 - Tres listas de información postevento con rotación C/E/N.
@@ -82,7 +82,7 @@ La asignación por hash conserva la versión de un código, pero no garantiza po
 
 Cada fila del CSV corresponde a un reactivo e incluye:
 
-- `participant_code`, `version`, `list`, `session`, `form`;
+- `participant_code`, `consent_at`, `consent_version`, `version`, `list`, `session`, `form`;
 - `item_id`, `condition`, `response`;
 - `accuracy`, `misinfo_choice`, `misinfo_accept`;
 - `confidence_0_100`, `source`, `rt_ms`;
@@ -114,7 +114,7 @@ Esta versión está diseñada para **docencia y pilotaje local**, no para recole
 1. GitHub Pages no incluye una base de datos privada. Los datos se conservan en `localStorage` del navegador.
 2. El acceso docente y las claves de corrección son visibles en el código publicado.
 3. El seguimiento funciona automáticamente en el mismo navegador. Si se cambia de dispositivo, es necesario importar el respaldo JSON.
-4. La app incluye un consentimiento informado completo para pilotaje y registra fecha y versión. Antes de recolectar datos reales deben completarse el contacto institucional y la aprobación docente o del comité de ética; el debriefing también requiere aprobación.
+4. La sesión inicial exige consentimiento informado antes de mostrar el estímulo y registra fecha y versión. Antes de recolectar datos reales siguen siendo necesarias la aprobación institucional o del comité de ética y una vía formal de contacto para participantes.
 5. Deben definirse retención, cifrado, control de acceso, retiro de datos e incidencias antes de reclutar participantes.
 6. La matriz fue contrastada visualmente con el video, pero la visibilidad y dificultad de cada detalle deben confirmarse mediante pilotaje independiente.
 
