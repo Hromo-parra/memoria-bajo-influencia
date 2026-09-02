@@ -641,14 +641,31 @@
   }
 
   function download(name, content, type) {
-    const url = URL.createObjectURL(new Blob([content], { type }));
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = name;
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-    URL.revokeObjectURL(url);
+    try {
+      const blob = new Blob([content], { type });
+      if (typeof navigator !== "undefined" && typeof navigator.msSaveOrOpenBlob === "function") {
+        navigator.msSaveOrOpenBlob(blob, name);
+        return true;
+      }
+      if (typeof URL?.createObjectURL !== "function") throw new Error("createObjectURL no disponible");
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = name;
+      link.rel = "noopener";
+      link.style.display = "none";
+      document.body.appendChild(link);
+      link.click();
+      window.setTimeout(() => {
+        link.remove();
+        URL.revokeObjectURL(url);
+      }, 1000);
+      return true;
+    } catch (error) {
+      console.error("No se pudo iniciar la descarga.", error);
+      showToast("No se pudo iniciar la descarga en este navegador.");
+      return false;
+    }
   }
 
   function exportCSV() {
