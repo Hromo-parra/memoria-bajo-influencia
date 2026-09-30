@@ -133,3 +133,7 @@ Para recolección real se recomienda mantener esta interfaz y trasladar asignaci
 ## Versión
 
 Prototipo `v0.1.0`, 26 de agosto de 2026.
+
+## Demo para presentación
+
+Abre [demo.html](demo.html) o el botón «Demo para presentación» en la app. El recorrido interactivo muestra una versión abreviada del procedimiento con ejemplos ficticios. No solicita consentimiento, no guarda respuestas y no exporta datos de investigación. La demo no reemplaza el protocolo completo ni la sesión de participante.
