@@ -3,7 +3,7 @@
 
   const DATA = window.STUDY_DATA;
   const STORAGE_KEY = "memoria-influencia-v01";
-  const CONSENT_VERSION = "piloto-2026-08-31-v1";
+  const CONSENT_VERSION = "piloto-2026-10-01-v2";
   const app = document.querySelector("#app");
   const toast = document.querySelector("#toast");
 
@@ -207,7 +207,7 @@
         <div class="consent-meta" aria-label="Datos del consentimiento">
           <div><span>Equipo investigador</span><strong>${DATA.meta.authors.map(escapeHTML).join(" · ")}</strong></div>
           <div><span>Versión</span><strong>${CONSENT_VERSION}</strong></div>
-          <div><span>Contacto</span><strong>[correo institucional por completar]</strong></div>
+          <div><span>Contacto</span><strong>negretemafermc13@gmail.com</strong></div>
         </div>
         <div class="consent-sections">
           <section><h3>¿Cuál es el propósito?</h3><p>Este proyecto académico estudia cómo las personas recuerdan una escena y procesan información relacionada con ella. Para no influir en tus respuestas, algunos detalles del objetivo se explicarán al terminar tu participación.</p></section>
