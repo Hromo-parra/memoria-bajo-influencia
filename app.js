@@ -66,6 +66,10 @@
     }).format(new Date(value));
   }
 
+  function hasAcceptedConsent(participant) {
+    return Boolean(participant?.consentAt);
+  }
+
   function showToast(message) {
     toast.textContent = message;
     toast.classList.add("show");
@@ -138,6 +142,7 @@
                 <label class="choice"><input type="radio" name="session" value="2" /><span class="choice-key">2</span><span><strong>Seguimiento a 7 días</strong><br><span class="muted small">Segunda prueba y explicación final</span></span></label>
               </div>
             </div>
+            <div class="notice"><span aria-hidden="true">✓</span><div><strong>Consentimiento antes de iniciar</strong><p>Al continuar se mostrará primero el consentimiento informado. La prueba solo puede comenzar si lo aceptas explícitamente.</p></div></div>
             <div class="notice"><span aria-hidden="true">●</span><div><strong>Antes de continuar</strong><p>Realiza la actividad sin consultar notas ni regresar al video. Usa un dispositivo con audio y reserva un momento sin interrupciones.</p></div></div>
             <div class="btn-row"><button class="btn btn-primary" type="submit">Continuar</button></div>
           </form>
@@ -172,6 +177,11 @@
     const participant = db.participants[activeCode];
     if (!participant) return go("#/participante");
     const stage = participant.currentStage;
+    if (!hasAcceptedConsent(participant) && ["intro", "video", "distractor", "postevent", "test1", "test2"].includes(stage)) {
+      participant.currentStage = "consent";
+      saveDatabase();
+      return renderConsent(participant);
+    }
     if (stage === "consent") return renderConsent(participant);
     if (stage === "intro") return renderIntroduction(participant);
     if (stage === "video") return renderVideo(participant);
@@ -631,14 +641,31 @@
   }
 
   function download(name, content, type) {
-    const url = URL.createObjectURL(new Blob([content], { type }));
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = name;
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-    URL.revokeObjectURL(url);
+    try {
+      const blob = new Blob([content], { type });
+      if (typeof navigator !== "undefined" && typeof navigator.msSaveOrOpenBlob === "function") {
+        navigator.msSaveOrOpenBlob(blob, name);
+        return true;
+      }
+      if (typeof URL?.createObjectURL !== "function") throw new Error("createObjectURL no disponible");
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = name;
+      link.rel = "noopener";
+      link.style.display = "none";
+      document.body.appendChild(link);
+      link.click();
+      window.setTimeout(() => {
+        link.remove();
+        URL.revokeObjectURL(url);
+      }, 1000);
+      return true;
+    } catch (error) {
+      console.error("No se pudo iniciar la descarga.", error);
+      showToast("No se pudo iniciar la descarga en este navegador.");
+      return false;
+    }
   }
 
   function exportCSV() {
@@ -698,6 +725,11 @@
         if (!participant?.session1.completedAt) return renderMissingSession();
         if (participant.session2.completedAt) {
           participant.currentStage = "complete";
+          return renderSession();
+        }
+        if (!hasAcceptedConsent(participant)) {
+          participant.currentStage = "consent";
+          saveDatabase();
           return renderSession();
         }
         renderSessionTwoGate(participant);
